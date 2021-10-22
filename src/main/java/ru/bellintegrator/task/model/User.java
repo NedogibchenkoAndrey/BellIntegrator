@@ -41,7 +41,7 @@ public class User {
     @JoinColumn(name = "office_id", nullable = false)
     private Office office;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 }

@@ -33,7 +33,7 @@ public class Doc {
     @JoinColumn(name = "id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "doc_type_id", nullable = false)
     private DocType docType;
 }
