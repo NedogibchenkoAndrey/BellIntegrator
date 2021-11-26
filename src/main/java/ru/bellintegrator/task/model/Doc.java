@@ -24,16 +24,19 @@ public class Doc {
     @Column(name = "number", nullable = false, length = 50)
     private String number;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "doc")
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "doc_type_id", nullable = false)
+    @JoinColumn(name = "doc_type_id")
     private DocType docType;
+
+    @Version
+    private Integer version;
 }

@@ -4,13 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
-import java.util.List;
-
 
 @Entity
-@Table(name = "doc_type")
+@Table(name = "office")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,7 +28,10 @@ public class Office {
     private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "org_id", nullable = false)
+    @JoinColumn(name = "org_id")
     private Organization organization;
+
+    @Version
+    private Integer version;
 
 }
