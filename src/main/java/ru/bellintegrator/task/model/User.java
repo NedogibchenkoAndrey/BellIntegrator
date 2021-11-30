@@ -34,7 +34,10 @@ public class User {
     @Column(name = "phone", length = 20)
     private String phone;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @Version
+    private Integer version;
+
+    @OneToOne(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Doc doc;
 
     @ManyToOne(fetch = FetchType.LAZY)

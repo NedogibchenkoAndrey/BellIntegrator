@@ -14,6 +14,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Organization {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -39,5 +41,8 @@ public class Organization {
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
+
+    @Version
+    private Integer version;
 
 }
