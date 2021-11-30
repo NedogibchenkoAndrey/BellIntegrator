@@ -22,8 +22,8 @@ public class OrganizationController {
         this.organizationService = organizationService;
     }
 
-    @ApiOperation(value = "Get organization list", httpMethod = "GET")
-    @GetMapping("/list")
+    @ApiOperation(value = "Get organization list", httpMethod = "POST")
+    @PostMapping("/list")
     public List<OrganizationToListView> findAll(@RequestBody OrganizationFilterView orgFilter) {
         return organizationService.findAll(orgFilter);
     }

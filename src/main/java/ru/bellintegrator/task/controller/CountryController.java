@@ -3,6 +3,7 @@ package ru.bellintegrator.task.controller;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bellintegrator.task.model.Country;
@@ -25,8 +26,8 @@ public class CountryController {
     }
 
 
-    @ApiOperation(value = "Get countries list", httpMethod = "GET")
-    @GetMapping("/list")
+    @ApiOperation(value = "Get countries list", httpMethod = "POST")
+    @PostMapping("/list")
     public List<CountryToListView> findAll() {
         return countryService.findAll();
     }

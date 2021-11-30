@@ -1,6 +1,7 @@
 package ru.bellintegrator.task.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.task.dao.CountryDao;
@@ -9,6 +10,7 @@ import ru.bellintegrator.task.dao.OfficeDao;
 import ru.bellintegrator.task.dao.UserDao;
 import ru.bellintegrator.task.mapper.MapperFacade;
 import ru.bellintegrator.task.model.*;
+import ru.bellintegrator.task.response.exception.DataNotFoundException;
 import ru.bellintegrator.task.service.UserService;
 import ru.bellintegrator.task.view.user.*;
 
@@ -42,46 +44,95 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserToByIdView findById(Integer id) {
         var user = userDao.findById(id);
-        var userToByIdView = mapperFacade.map(user, UserToByIdView.class);
-        return userToByIdView;
+
+        if (user == null) {
+            throw new DataNotFoundException("User with this id " + id + " not found!");
+        } else {
+            var userToByIdView = mapperFacade.map(user, UserToByIdView.class);
+            return userToByIdView;
+        }
     }
 
     @Override
     @Transactional
     public void save(UserToSaveView userToSaveView) {
         var userSave = mapperFacade.map(userToSaveView, User.class);
-        userSave.setOffice(officeDao.findById(userToSaveView.getOfficeId()));
+
+        if (userToSaveView.getOfficeId() != null) {
+            try {
+                userSave.setOffice(officeDao.findById(userToSaveView.getOfficeId()));
+            } catch (EmptyResultDataAccessException ex) {
+                throw new DataNotFoundException("Office with this id " + userToSaveView.getOfficeId() + " not found!");
+            }
+        }
 
         Doc doc = new Doc();
         doc.setNumber(userToSaveView.getDocNumber());
         doc.setDate(userToSaveView.getDocDate());
 
-        DocType docType = docTypeDao.findDocTypeByNameAndCode(userToSaveView.getDocName(), userToSaveView.getDocCode());
-        doc.setDocType(docType);
+        DocType docType;
+        if (userToSaveView.getDocName() != null && userToSaveView.getDocCode() != null) {
+            docType = docTypeDao.findDocTypeByNameAndCode(userToSaveView.getDocName(), userToSaveView.getDocCode());
+
+            if (docType != null) {
+                doc.setDocType(docType);
+            } else {
+                throw new DataNotFoundException("Document type not found!");
+            }
+        }
+
 
         doc.setUser(userSave);
         userSave.setDoc(doc);
 
         Country countryByCode = countryDao.findCountryByCode(userToSaveView.getCitizenshipCode());
-        userSave.setCountry(countryByCode);
-        userDao.save(userSave);
+
+        if (countryByCode != null) {
+            userSave.setCountry(countryByCode);
+            userDao.save(userSave);
+        } else {
+            throw new DataNotFoundException("Country with this code not found!");
+        }
     }
 
     @Override
     @Transactional
     public void update(UserToUpdateView userToUpdateView) {
         User userUpdate = userDao.findById(userToUpdateView.getId());
+        if (userUpdate == null) {
+            throw new DataNotFoundException("User with this id not found!");
+        }
         mapperFacade.map(userToUpdateView, userUpdate);
 
         Doc doc = userUpdate.getDoc();
-        doc.setNumber(userToUpdateView.getDocNumber());
-        doc.setDate(userToUpdateView.getDocDate());
+        if (userToUpdateView.getDocNumber() != null) {
+            doc.setNumber(userToUpdateView.getDocNumber());
+        } else {
+            throw new DataNotFoundException("Enter the Document number correctly!");
+        }
 
-        userUpdate.setOffice(officeDao.findById(userToUpdateView.getOfficeId()));
+        if (userToUpdateView.getDocDate() != null) {
+            doc.setDate(userToUpdateView.getDocDate());
+        } else {
+            throw new DataNotFoundException("Enter the date \"yyyy-MM-dd\" correctly!");
+        }
 
-        Country country = countryDao.findCountryByCode(userToUpdateView.getCitizenshipCode());
+        if (userToUpdateView.getOfficeId() != null) {
+            try {
+                userUpdate.setOffice(officeDao.findById(userToUpdateView.getOfficeId()));
+            } catch (EmptyResultDataAccessException ex) {
+                throw new DataNotFoundException("Office with this id not found!");
+            }
+        }
+        if (userToUpdateView.getCitizenshipCode() != null) {
+            Country country = countryDao.findCountryByCode(userToUpdateView.getCitizenshipCode());
 
-        userUpdate.setCountry(country);
-        userDao.update(userUpdate);
+            if (country == null) {
+                throw new DataNotFoundException("Enter the country code correctly!");
+            } else {
+                userUpdate.setCountry(country);
+                userDao.update(userUpdate);
+            }
+        }
     }
 }

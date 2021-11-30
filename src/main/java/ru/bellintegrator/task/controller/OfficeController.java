@@ -24,8 +24,8 @@ public class OfficeController {
         this.officeService = officeService;
     }
 
-    @ApiOperation(value = "Get office list", httpMethod = "GET")
-    @GetMapping("/list")
+    @ApiOperation(value = "Get office list", httpMethod = "POST")
+    @PostMapping("/list")
     public List<OfficeToListView> findAll(@RequestBody OfficeFilterView filterView){
         return officeService.findAll(filterView);
     }
@@ -35,13 +35,13 @@ public class OfficeController {
         return officeService.findById(id);
     }
 
-    @ApiOperation(value = "Get office update", httpMethod = "GET")
+    @ApiOperation(value = "Get office update", httpMethod = "POST")
     @PostMapping("/update")
     public void update(@RequestBody OfficeToUpdateView officeToUpdateView) {
         officeService.update(officeToUpdateView);
     }
 
-    @ApiOperation(value = "Get office Save",httpMethod = "GET")
+    @ApiOperation(value = "Get office Save",httpMethod = "POST")
     @PostMapping("/save")
     public void save(@RequestBody OfficeToSaveView officeToSaveView) {
         officeService.save(officeToSaveView);

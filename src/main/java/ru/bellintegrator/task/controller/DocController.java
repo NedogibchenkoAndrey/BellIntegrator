@@ -3,6 +3,7 @@ package ru.bellintegrator.task.controller;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bellintegrator.task.model.Doc;
@@ -24,8 +25,8 @@ public class DocController {
         this.docService = docService;
     }
 
-    @ApiOperation(value = "Get doc list", nickname = "getDocList", httpMethod = "GET")
-    @GetMapping("/list")
+    @ApiOperation(value = "Get doc list", nickname = "getDocList", httpMethod = "POST")
+    @PostMapping("/list")
     public List<DocView> findAll() {
         return docService.findAll();
     }

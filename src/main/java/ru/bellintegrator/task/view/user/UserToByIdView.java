@@ -1,5 +1,6 @@
 package ru.bellintegrator.task.view.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -20,4 +21,5 @@ public class UserToByIdView {
     private String docName;
     // Код гражданства пользователя
     private String citizenshipCode;
+
 }
