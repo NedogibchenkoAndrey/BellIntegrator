@@ -71,10 +71,10 @@ public class UserIntegrationTest {
     public void addTest() throws Exception {
         UserToSaveView userSave = new UserToSaveView();
 
-        userSave.setCitizenshipCode("056");
-        userSave.setDocCode("21");
+        userSave.setCitizenshipCode("340");
+        userSave.setDocCode("26");
         userSave.setDocDate(new Date(2021 - 11 - 26));
-        userSave.setDocName("Паспорт гражданина РФ");
+        userSave.setDocName("Военный билет");
         userSave.setDocNumber("35535353");
         userSave.setFirstName("Сергей");
         userSave.setMiddleName("Сергеев");
