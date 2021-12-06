@@ -1,9 +1,7 @@
 package ru.bellintegrator.task.controller;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.task.service.UserService;
 import ru.bellintegrator.task.view.user.*;
@@ -27,7 +25,7 @@ public class UserController {
 
     @PostMapping("/list")
     @ApiOperation(value = "Get a list of users by filter", httpMethod = "POST")
-    public List<UserToListView> findAll(@RequestBody UserFilterView userFilterView) {
+    public List<UserToListView> findAll(@Valid @RequestBody UserFilterView userFilterView) {
         return userService.findAll(userFilterView);
     }
 

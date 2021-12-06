@@ -46,20 +46,24 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
+    @Transactional
     public void save(OfficeToSaveView officeToSaveView){
         Office saveOffice = mapperFacade.map(officeToSaveView, Office.class);
         Organization organization = organizationDao.findById(officeToSaveView.getOrgId());
         if (organization != null) {
             saveOffice.setOrganization(organization);
             officeDao.save(saveOffice);
-        } throw new DataNotFoundException("Organization with this id not found");
+        } else {
+            throw new DataNotFoundException("Organization with this id not found");
+        }
     }
+
     @Override
+    @Transactional
     public void update(OfficeToUpdateView officeToUpdateView) {
         try {
             Office officeUpdate = officeDao.findById(officeToUpdateView.getId());
             mapperFacade.map(officeToUpdateView, officeUpdate);
-            officeDao.update(officeUpdate);
         } catch (NoResultException e) {
             throw new DataNotFoundException("Office with this id not found", e);
         }
