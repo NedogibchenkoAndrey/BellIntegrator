@@ -9,6 +9,8 @@ spring:
     driver-class-name: org.hsqldb.jdbc.JDBCDriver
     sql-script-encoding: UTF-8
     initialization-mode: always
+#  main:
+#    banner-mode: 'off'
 
   jpa:
     hibernate:

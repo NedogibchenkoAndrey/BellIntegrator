@@ -1,19 +1,19 @@
 package ru.bellintegrator.task.controller;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.task.service.UserService;
 import ru.bellintegrator.task.view.user.*;
 
+import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
 @RestController
-@RequestMapping(value = "/api/user")
-@Api(value = "UserController", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/user", produces = APPLICATION_JSON_VALUE)
 public class UserController {
     private final UserService userService;
 
@@ -25,7 +25,7 @@ public class UserController {
 
     @PostMapping("/list")
     @ApiOperation(value = "Get a list of users by filter", httpMethod = "POST")
-    public List<UserToListView> findAll(@RequestBody UserFilterView userFilterView) {
+    public List<UserToListView> findAll(@Valid @RequestBody UserFilterView userFilterView) {
         return userService.findAll(userFilterView);
     }
 
@@ -37,12 +37,13 @@ public class UserController {
 
     @PostMapping("/save")
     @ApiOperation(value = "Get a save of user", httpMethod = "POST")
-    public void save(@RequestBody UserToSaveView userToSaveView){
+    public void add(@Valid @RequestBody UserToSaveView userToSaveView) {
         userService.save(userToSaveView);
     }
+
     @PostMapping("/update")
     @ApiOperation(value = "Get a update of user", httpMethod = "POST")
-    public void update(@RequestBody UserToUpdateView userToUpdateView) {
+    public void update(@Valid @RequestBody UserToUpdateView userToUpdateView) {
         userService.update(userToUpdateView);
     }
 }

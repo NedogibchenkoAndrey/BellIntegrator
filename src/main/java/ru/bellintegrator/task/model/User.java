@@ -40,6 +40,9 @@ public class User {
     @OneToOne(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Doc doc;
 
+    @Column(name = "is_identified")
+    private Boolean isIdentified;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "office_id", nullable = false)
     private Office office;

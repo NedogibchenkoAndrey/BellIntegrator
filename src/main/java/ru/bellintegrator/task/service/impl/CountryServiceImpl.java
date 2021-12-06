@@ -2,7 +2,6 @@ package ru.bellintegrator.task.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.task.dao.CountryDao;
 import ru.bellintegrator.task.mapper.MapperFacade;
 import ru.bellintegrator.task.model.Country;

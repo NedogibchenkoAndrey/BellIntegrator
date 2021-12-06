@@ -27,13 +27,13 @@ public class OfficeDaoImpl implements OfficeDao {
 
     @Override
     public List<Office> findAll(OfficeFilterView filterView) {
-      String name = filterView.getName();
-      String phone = filterView.getPhone();
-      Boolean isActive = filterView.getIsActive();
+        String name = filterView.getName();
+        String phone = filterView.getPhone();
+        Boolean isActive = filterView.getIsActive();
 
-      CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-      CriteriaQuery<Office> criteriaQuery = criteriaBuilder.createQuery(Office.class);
-      Root<Office> root = criteriaQuery.from(Office.class);
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Office> criteriaQuery = criteriaBuilder.createQuery(Office.class);
+        Root<Office> root = criteriaQuery.from(Office.class);
         Predicate filter = criteriaBuilder.equal(root.get("organization").get("id"), filterView.getOrgId());
         if (name != null) {
             filter = criteriaBuilder.and(filter, criteriaBuilder.equal(root.get("name"), name));
@@ -57,7 +57,7 @@ public class OfficeDaoImpl implements OfficeDao {
     public Office findById(Integer id) {
         Query query = em.createNativeQuery("SELECT o.* FROM Office o WHERE o.id =:id", Office.class)
                 .setParameter("id", id);
-            return (Office) query.getSingleResult();
+        return (Office) query.getSingleResult();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class OfficeDaoImpl implements OfficeDao {
     }
 
     @Override
-    public void update( Office office) {
+    public void update(Office office) {
         em.merge(office);
     }
 }

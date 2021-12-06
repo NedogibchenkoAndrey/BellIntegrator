@@ -9,12 +9,14 @@ import ru.bellintegrator.task.dao.OrganizationDao;
 import ru.bellintegrator.task.mapper.MapperFacade;
 import ru.bellintegrator.task.model.Office;
 import ru.bellintegrator.task.model.Organization;
+import ru.bellintegrator.task.response.exception.DataNotFoundException;
 import ru.bellintegrator.task.service.OfficeService;
 import ru.bellintegrator.task.view.office.OfficeFilterView;
 import ru.bellintegrator.task.view.office.OfficeToListView;
 import ru.bellintegrator.task.view.office.OfficeToSaveView;
 import ru.bellintegrator.task.view.office.OfficeToUpdateView;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Service
@@ -44,16 +46,26 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
+    @Transactional
     public void save(OfficeToSaveView officeToSaveView){
         Office saveOffice = mapperFacade.map(officeToSaveView, Office.class);
         Organization organization = organizationDao.findById(officeToSaveView.getOrgId());
-        saveOffice.setOrganization(organization);
-        officeDao.save(saveOffice);
+        if (organization != null) {
+            saveOffice.setOrganization(organization);
+            officeDao.save(saveOffice);
+        } else {
+            throw new DataNotFoundException("Organization with this id not found");
+        }
     }
+
     @Override
+    @Transactional
     public void update(OfficeToUpdateView officeToUpdateView) {
-        Office officeUpdate = officeDao.findById(officeToUpdateView.getId());
-        mapperFacade.map(officeToUpdateView, officeUpdate);
-        officeDao.update(officeUpdate);
+        try {
+            Office officeUpdate = officeDao.findById(officeToUpdateView.getId());
+            mapperFacade.map(officeToUpdateView, officeUpdate);
+        } catch (NoResultException e) {
+            throw new DataNotFoundException("Office with this id not found", e);
+        }
     }
 }

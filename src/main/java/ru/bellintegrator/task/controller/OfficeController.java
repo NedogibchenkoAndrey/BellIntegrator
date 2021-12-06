@@ -9,6 +9,7 @@ import ru.bellintegrator.task.view.office.OfficeToListView;
 import ru.bellintegrator.task.view.office.OfficeToSaveView;
 import ru.bellintegrator.task.view.office.OfficeToUpdateView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -24,9 +25,9 @@ public class OfficeController {
         this.officeService = officeService;
     }
 
-    @ApiOperation(value = "Get office list", httpMethod = "GET")
-    @GetMapping("/list")
-    public List<OfficeToListView> findAll(@RequestBody OfficeFilterView filterView){
+    @ApiOperation(value = "Get office list", httpMethod = "POST")
+    @PostMapping("/list")
+    public List<OfficeToListView> findAll(@Valid @RequestBody OfficeFilterView filterView){
         return officeService.findAll(filterView);
     }
     @ApiOperation(value = "Get office by id", httpMethod = "GET")
@@ -35,15 +36,15 @@ public class OfficeController {
         return officeService.findById(id);
     }
 
-    @ApiOperation(value = "Get office update", httpMethod = "GET")
+    @ApiOperation(value = "Get office update", httpMethod = "POST")
     @PostMapping("/update")
-    public void update(@RequestBody OfficeToUpdateView officeToUpdateView) {
+    public void update(@Valid @RequestBody OfficeToUpdateView officeToUpdateView) {
         officeService.update(officeToUpdateView);
     }
 
-    @ApiOperation(value = "Get office Save",httpMethod = "GET")
+    @ApiOperation(value = "Get office Save",httpMethod = "POST")
     @PostMapping("/save")
-    public void save(@RequestBody OfficeToSaveView officeToSaveView) {
+    public void add(@Valid @RequestBody OfficeToSaveView officeToSaveView) {
         officeService.save(officeToSaveView);
     }
 }

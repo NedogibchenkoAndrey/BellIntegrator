@@ -1,13 +1,9 @@
 package ru.bellintegrator.task.view.organization;
 
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@ToString
-@Getter
-@Setter
+@Data
 public class OrganizationToByIdView {
     private Integer id;
     private String name;

@@ -13,7 +13,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<encoding>UTF-8</encoding>
-		<swagger.version>2.2.2</swagger.version>
+		<swagger.version>2.9.2</swagger.version>
 		<orika.mapper.version>1.5.2</orika.mapper.version>
 	</properties>
 
@@ -22,11 +22,10 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.6.RELEASE</version>
+		<relativePath/>
 	</parent>
 
 	<dependencies>
-
-		<!-- Встроенный http сервер -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -42,7 +41,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jetty</artifactId>
 			<exclusions>
-				<!-- не используем эти аннотации -->
 				<exclusion>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-annotations</artifactId>
@@ -76,11 +74,16 @@
 			<version>${orika.mapper.version}</version>
 		</dependency>
 
+<!--		<dependency>-->
+<!--			<groupId>junit</groupId>-->
+<!--			<artifactId>junit</artifactId>-->
+<!--		</dependency>-->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.2.0</version>
+			<scope>test</scope>
 		</dependency>
-
 		<!-- модульные и интеграционные тесты -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -104,6 +107,12 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.20</version>
 		</dependency>
+
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -125,25 +134,30 @@
 				</configuration>
 			</plugin>
 
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-failsafe-plugin</artifactId>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<phase>integration-test</phase>-->
+<!--						<goals>-->
+<!--							<goal>integration-test</goal>-->
+<!--							<goal>verify</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.1</version>
 			</plugin>
 
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>ru.bellintegrator.practice.Application</mainClass>
+					<mainClass>ru.bellintegrator.task.BellIntegratorApplication</mainClass>
 					<jvmArguments>
 						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
 					</jvmArguments>
@@ -166,7 +180,7 @@
 				<executions>
 					<execution>
 						<id>copy-resources</id>
-						<phase>validate</phase>
+						<phase>verify</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>

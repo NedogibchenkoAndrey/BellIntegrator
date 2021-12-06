@@ -51,12 +51,9 @@ public class OrganizationDaoImpl implements OrganizationDao {
 
     @Override
     public Organization findById(Integer id) {
-//        TypedQuery<Organization> query = em.createQuery("SELECT o FROM Organization o WHERE o.id =:id", Organization.class);
-        //        query.setParameter("id", id);
-//        return query.getSingleResult();
-       Organization organization = em.getReference(Organization.class, id);
-       organization.getId();
-       return organization;
+        TypedQuery<Organization> query = em.createQuery("SELECT o FROM Organization o WHERE o.id =:id", Organization.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
 
     @Override
@@ -66,7 +63,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
 
     @Override
     public void update(Organization orgUpdate) {
-        em.persist(orgUpdate);
+        em.merge(orgUpdate);
     }
 
 }

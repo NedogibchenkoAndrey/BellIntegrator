@@ -12,12 +12,9 @@ public class UserToByIdView {
     private String middleName;
     private String position;
     private String phone;
-
-
     private String docNumber;
     private Date docDate;
-
     private String docName;
-    // Код гражданства пользователя
     private String citizenshipCode;
+
 }
